@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Тест сайт</title>
+<meta name="description" content="ТЭКОТ — игра с открытым миром.">
+<meta name="theme-color" content="#050806">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cpath d='M4 4h36v36H4z' fill='%23050806'/%3E%3Cpath d='M12 12h8v4h-4v12h12v-4h4v8H12zM24 12h8v8h-4v-4h-4z' fill='%234f9a78'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root{
+  --acc:#4f9a78; --fg:#d8dcb6; --hd:#f3e6a9; --mut:#b7b58a;
+  --bg:color-mix(in srgb,var(--acc) 5%,#030303); --card:color-mix(in srgb,var(--acc) 9%,#030303); --line:color-mix(in srgb,var(--acc) 38%,#030303);
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --pix:"Pixelify Sans","JetBrains Mono",ui-monospace,monospace;
+  --u:4px;
+  --nav:72px;
+  --notch:polygon(0 var(--u),var(--u) var(--u),var(--u) 0,calc(100% - var(--u)) 0,calc(100% - var(--u)) var(--u),100% var(--u),100% calc(100% - var(--u)),calc(100% - var(--u)) calc(100% - var(--u)),calc(100% - var(--u)) 100%,var(--u) 100%,var(--u) calc(100% - var(--u)),0 calc(100% - var(--u)));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 2px);-webkit-text-size-adjust:100%;background:var(--bg)}
+body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:16px;line-height:1.75;margin:0;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:4px solid var(--acc);outline-offset:2px}
+::selection{background:var(--acc);color:var(--bg)}
+.wrap{max-width:1040px;margin-inline:auto;padding-inline:max(20px,env(safe-area-inset-left,0px)) max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--pix);font-weight:500;color:var(--hd);line-height:1.15;margin:0;text-wrap:balance}
+h2{font-size:clamp(2rem,6vw,3rem)}
+h3{font-size:1.5rem}
+p{margin:0;color:var(--mut);text-wrap:pretty}
+ul{margin:0;padding:0;list-style:none}
+
+.skip{position:absolute;left:20px;top:-80px;z-index:50;padding:8px 16px;background:var(--acc);color:var(--bg);font-family:var(--pix);font-weight:700}
+.skip:focus{top:8px}
+
+.px{position:relative;background:var(--line);clip-path:var(--notch);padding:2px;transition:background .2s steps(2),transform .2s steps(2)}
+.px>.in{background:var(--card);clip-path:var(--notch);padding:24px;height:100%;display:flex;flex-direction:column;gap:12px}
+.btn{display:inline-block;font-family:var(--pix);font-weight:700;font-size:1.05rem;padding:10px 20px;background:var(--acc);color:var(--bg);clip-path:var(--notch);transition:transform .2s steps(2),background .2s steps(2);white-space:nowrap}
+.btn:active{transform:translateY(2px)}
+@media(hover:hover){
+  .px:hover{background:var(--acc);transform:translateY(-4px)}
+  .btn:hover{background:var(--hd);transform:translateY(-4px)}
+}
+
+nav{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:2px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+nav .wrap{display:flex;align-items:center;gap:24px;height:var(--nav)}
+.mark{display:block;width:44px;height:44px;color:var(--acc);flex:none}
+.mark:hover{color:var(--hd)}
+.links{display:flex;gap:28px;margin-left:auto;font-size:.95rem}
+.links a{color:var(--mut);padding:4px 0;border-bottom:4px solid transparent;transition:color .2s steps(2),border-color .2s steps(2)}
+.links a:hover{color:var(--hd)}
+.links a[aria-current="true"]{color:var(--hd);border-color:var(--acc)}
+.burger{display:none;margin-left:auto;background:none;border:0;padding:8px;cursor:pointer;color:var(--hd)}
+.burger span{display:block;width:28px;height:4px;background:currentColor;margin:6px 0;transition:transform .2s steps(2),opacity .2s steps(2)}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(10px)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-10px)}
+.menu{display:none;border-top:2px solid var(--line);background:var(--bg);padding:8px 20px 20px;flex-direction:column}
+.menu.open{display:flex}
+.menu a{padding:12px 0;color:var(--hd);border-bottom:2px solid var(--line)}
+.menu .btn{margin-top:20px;text-align:center;border-bottom:0}
+@media(max-width:720px){.links,nav .wrap>.btn{display:none}.burger{display:block}}
+@media(min-width:721px){.menu{display:none!important}}
+
+.hero{position:relative;overflow:hidden;text-align:center;padding-block:48px;min-height:calc(100vh - var(--nav) - 2px);min-height:calc(100svh - var(--nav) - 2px);display:flex;flex-direction:column;justify-content:center}
+#dither{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;image-rendering:pixelated}
+.hero .wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:44px}
+.logo{font-family:var(--pix);font-weight:700;text-transform:uppercase;font-size:clamp(4rem,19vw,9rem);line-height:1;letter-spacing:.03em;margin:0;color:transparent;background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 40%,#fff) 0 20%,color-mix(in srgb,var(--acc) 72%,#fff) 20% 38%,var(--acc) 38% 62%,color-mix(in srgb,var(--acc) 62%,#000) 62% 80%,color-mix(in srgb,var(--acc) 38%,#000) 80% 100%);-webkit-background-clip:text;background-clip:text;padding-bottom:.08em}
+.hero h1{font-size:clamp(2rem,6vw,3.2rem);max-width:14ch}
+.hero p{font-size:clamp(1rem,2.8vw,1.2rem);line-height:2;max-width:32ch}
+.hero .step{opacity:0;animation:pop .7s steps(1) both}
+.hero .step:nth-child(2){animation-delay:.3s}.hero .step:nth-child(3){animation-delay:.6s}
+.logo{animation:pop .7s steps(1) both,glitch 5s steps(1) 1.5s infinite}
+@keyframes pop{
+  0%{opacity:0;transform:translate(0,16px)}
+  15%{opacity:1;transform:translate(-4px,12px)}
+  30%{opacity:0;transform:translate(4px,8px)}
+  45%{opacity:1;transform:translate(0,8px)}
+  60%{opacity:.4;transform:translate(-4px,4px)}
+  75%{opacity:1;transform:translate(4px,0)}
+  100%{opacity:1;transform:none}
+}
+@keyframes glitch{
+  0%,90%,100%{translate:0 0}
+  92%{translate:8px 0}
+  94%{translate:-8px 4px}
+  96%{translate:4px -4px}
+  98%{translate:-4px 0}
+}
+
+.block{padding-block:88px;border-top:2px solid var(--line)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.about .txt{display:flex;flex-direction:column;gap:20px}
+.feat{display:flex;flex-direction:column;gap:8px}
+.feat li{position:relative;padding-left:28px;color:var(--hd)}
+.feat li::before{content:"";position:absolute;left:0;top:.6em;width:12px;height:12px;background:var(--acc)}
+blockquote{margin:0;font-family:var(--pix);font-size:1.5rem;line-height:1.4;color:var(--hd);border-left:8px solid var(--acc);padding-left:20px}
+@media(max-width:760px){.about{grid-template-columns:1fr;gap:36px}.block{padding-block:64px}}
+.head{margin-bottom:40px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px}
+.list a{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 0;border-top:2px solid var(--line);color:var(--hd);font-family:var(--pix);font-size:1.25rem;transition:padding .2s steps(2),color .2s steps(2)}
+.list li:last-child a{border-bottom:2px solid var(--line)}
+.list a small{font-family:var(--mono);font-size:.85rem;color:var(--mut)}
+@media(hover:hover){.list a:hover{color:var(--acc);padding-left:12px}}
+
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px}
+.shot{margin:0}
+.shot .in{padding:12px;gap:12px}
+.shot img,.shot .ph{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;image-rendering:pixelated;clip-path:var(--notch)}
+.shot .ph{display:grid;place-items:center;font-family:var(--pix);font-weight:700;font-size:1.25rem;color:var(--acc);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v8H0zM8 8h8v8H8z' fill='%234f9a78' fill-opacity='.14'/%3E%3C/svg%3E");background-size:16px 16px}
+.shot figcaption{font-size:.9rem;color:var(--mut);padding:0 4px 4px}
+
+footer{border-top:2px solid var(--line);padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.fpix{font-family:var(--pix);font-weight:700;font-size:1.6rem;text-transform:uppercase;color:var(--acc)}
+
+.pre{opacity:0}
+.rv:not(.pre){animation:pop .6s steps(1) both;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.pre{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#about">К содержимому</a>
+
+<nav id="nav" aria-label="Основная">
+  <div class="wrap">
+    <a class="mark" href="#home" aria-label="На главную">
+      <svg viewBox="0 0 44 44" width="44" height="44" fill="none" stroke="currentColor" stroke-width="4" shape-rendering="crispEdges" aria-hidden="true"><path d="M4 4h36v36H4z" opacity=".45"/><path d="M12 12h8v4h-4v12h12v-4h4v8H12zM24 12h8v8h-4v-4h-4z" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <div class="links"><a href="#about">Обзор</a><a href="#gallery">Фото</a><a href="#cards">Управление</a><a href="#list">Скачать</a></div>
+    <a class="btn" href="https://github.com/134rt5yt-svg/T3KOT">Install</a>
+    <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="menu" id="menu"><a href="#about">Обзор</a><a href="#gallery">Фото</a><a href="#cards">Управление</a><a href="#list">Скачать</a><a class="btn" href="https://github.com/">Install</a></div>
+</nav>
+
+<header class="hero" id="home">
+  <canvas id="dither" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="logo step" role="img" aria-label="ТЭКОТ">T3KOT</div>
+    <p class="step">3D платформер от первого лица</p>
+  </div>
+</header>
+
+<main>
+<section class="block" id="about"><div class="wrap about">
+  <div class="txt rv" data-rv>
+    <h2>Обзор</h2>
+    <p>3D-платформер от первого лица, построенный на Godot 4.7. Вы поднимаетесь сквозь густой туман: прыгаете по платформам, отталкиваетесь от стен.</p>
+    <ul class="feat">
+      <li>Вид от первого лица с живой камерой: покачивание при беге, приседание при приземлении, крен при стрейфе</li>
+      <li>Прыжки от стен с замедлением времени рядом с поверхностью</li>
+      <li>Автоматические чекпоинты - падение в туман возвращает к последней безопасной платформе</li>
+      <li>Сборки для Windows и Linux</li>
+    </ul>
+  </div>
+  <blockquote class="rv" data-rv style="--d:.15s">Игра разрабатывается ещё</blockquote>
+</div></section>
+
+<section class="block" id="gallery"><div class="wrap">
+  <div class="head rv" data-rv><h2>Фото</h2></div>
+  <div class="shots">
+    <figure class="shot px rv" data-rv><div class="in"><img src="photo1.png" alt="Скриншот игры 1"></div></figure>
+    <figure class="shot px rv" data-rv style="--d:.15s"><div class="in"><img src="photo2.png" alt="Скриншот игры 2"></div></figure>
+  </div>
+</div></section>
+
+<section class="block" id="cards"><div class="wrap">
+  <div class="head rv" data-rv><h2>Управление</h2></div>
+  <div class="cards">
+    <div class="px rv" data-rv><div class="in"><h3>Передвижение</h3><p>WASD или стрелки: движение, мышь: обзор. Esc освобождает и захватывает курсор.</p></div></div>
+    <div class="px rv" data-rv style="--d:.1s"><div class="in"><h3>Прыжки</h3><p>Пробел: прыжок. Прижмитесь к стене в воздухе и нажмите пробел, чтобы оттолкнуться от неё.</p></div></div>
+  </div>
+</div></section>
+
+<section class="block" id="list"><div class="wrap">
+  <div class="head rv" data-rv><h2>Скачать</h2></div>
+  <ul class="list rv" data-rv>
+    <li><a href="fog-platformer/build/T3KOT_v1.0_Windows.exe"><span>Windows</span><small>T3KOT v1.0 - .exe, x64</small></a></li>
+    <li><a href="fog-platformer/build/T3KOT_v1.0_Linux.x86_64"><span>Linux</span><small>T3KOT v1.0 - исполняемый файл, x86_64</small></a></li>
+    <li><a href="#about"><span>Движок</span><small>Godot 4.7, Forward+</small></a></li>
+    <li><a href="#gallery"><span>Скриншоты</span><small>Посмотреть игру в картинках</small></a></li>
+  </ul>
+</div></section>
+</main>
+
+<footer><div class="wrap"><div class="fpix">ТЭКОТ</div><a href="https://t.me/waflamav"><p>Автор: Wafla</p></a></div></footer>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* burger: toggle, close on link, Escape, outside click, or when widening to desktop */
+  var bg=$('#burger'),menu=$('#menu'),nav=$('#nav');
+  function setMenu(o){menu.classList.toggle('open',o);bg.setAttribute('aria-expanded',String(o))}
+  bg.addEventListener('click',function(){setMenu(!menu.classList.contains('open'))});
+  $$('#menu a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open')){setMenu(false);bg.focus()}});
+  document.addEventListener('click',function(e){if(menu.classList.contains('open')&&!nav.contains(e.target))setMenu(false)});
+  matchMedia('(min-width:721px)').addEventListener('change',function(e){if(e.matches)setMenu(false)});
+
+  /* highlight the current section in the nav */
+  var secs=$$('main section[id]'),links=$$('.links a');
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting)return;
+      links.forEach(function(a){
+        if(a.getAttribute('href')==='#'+en.target.id)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');
+      });
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(function(s){spy.observe(s)});
+  new IntersectionObserver(function(e){if(e[0].isIntersecting)links.forEach(function(a){a.removeAttribute('aria-current')})},{threshold:.5}).observe($('#home'));
+
+  /* hero pixel-noise aura: dense at the side edges, steps 4 times a second, only edge cells are stored and drawn */
+  var hero=$('#home'),cv=$('#dither'),cx=cv.getContext('2d'),S=8,cells=[],visible=true,tick=0,pending=false;
+  /* accent from the visitor's system (CSS AccentColor); falls back to the default green when unsupported or grey */
+  (function(){
+    try{
+      if(!(window.CSS&&CSS.supports('color','AccentColor')))return;
+      var d=document.createElement('div');d.style.cssText='color:AccentColor;position:absolute;visibility:hidden';
+      document.body.appendChild(d);var m=getComputedStyle(d).color.match(/[\d.]+/g);d.remove();
+      if(!m||m.length<3)return;
+      var r=m[0]/255,g=m[1]/255,b=m[2]/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,h=0,sat=0;
+      if(mx===mn)return;
+      var dl=mx-mn;sat=l>.5?dl/(2-mx-mn):dl/(mx+mn);
+      h=(mx===r?(g-b)/dl+(g<b?6:0):mx===g?(b-r)/dl+2:(r-g)/dl+4)*60;
+      if(sat<.12)return;
+      sat=Math.max(sat,.35);l=Math.min(Math.max(l,.42),.62);
+      document.documentElement.style.setProperty('--acc','hsl('+Math.round(h)+' '+Math.round(sat*100)+'% '+Math.round(l*100)+'%)');
+    }catch(e){}
+  })();
+  var accent=getComputedStyle(document.documentElement).getPropertyValue('--acc').trim()||'#4f9a78';
+  var mult=[.4,.7,1,1,.7,.4,.4,.4];
+  function draw(n){
+    cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle=accent;
+    for(var i=0;i<cells.length;i++){
+      var c=cells[i],q=c.p*mult[(n+c.f+(c.row>>1))&7];
+      if(c.r<q){
+        var l=c.r/q,s=l<.33?6:4,o=(S-s)>>1;
+        cx.globalAlpha=l<.33?.9:l<.66?.55:.28;
+        cx.fillRect(c.x+o,c.y+o,s,s);
+      }
+    }
+    cx.globalAlpha=1;
+  }
+  function size(){
+    var w=hero.clientWidth,h=hero.clientHeight,cols=Math.ceil(w/S),rows=Math.ceil(h/S);
+    cv.width=w;cv.height=h;cells=[];
+    for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
+      var p=.015+.8*Math.pow(Math.abs(x/(cols-1)-.5)*2,2.4);
+      if(p>=.03)cells.push({x:x*S,y:y*S,row:y,p:p,r:Math.random(),f:(Math.random()*8)|0});
+    }
+    draw(tick);
+  }
+  /* resize only when the size really changed (mobile address bar fires many no-op resizes) */
+  var lw=0,lh=0;
+  new ResizeObserver(function(){
+    if(pending)return;pending=true;
+    requestAnimationFrame(function(){
+      pending=false;
+      if(hero.clientWidth===lw&&Math.abs(hero.clientHeight-lh)<80&&lh)return;
+      lw=hero.clientWidth;lh=hero.clientHeight;size();
+    });
+  }).observe(hero);
+  new IntersectionObserver(function(e){visible=e[0].isIntersecting}).observe(hero);
+  if(!reduce)setInterval(function(){if(visible&&!document.hidden){tick++;draw(tick)}},200);
+
+  /* stepped reveal for blocks below the fold */
+  var els=$$('[data-rv]');
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.remove('pre');io.unobserve(en.target)}})},{threshold:.12});
+  requestAnimationFrame(function(){els.forEach(function(el){if(el.getBoundingClientRect().top>innerHeight){el.classList.add('pre');io.observe(el)}})});
+})();
+</script>
+</body>
+</html>
